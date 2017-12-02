@@ -17,8 +17,48 @@ app.listen(port, function() {
 app.post('/hello', function (req, res, next) {
   var userName = req.body.user_name;
   var botPayload = {
-    text : 'Hello ' + userName + ', welcome to MakeHaven!\nFirst, sign the online waiver.\nThen, watch the <http://www.foo.com| Orientation Video>.\nThen, '
-  };
+    "text": "Would you like to play a game?",
+    "attachments": [
+        {
+            "text": "Choose a game to play",
+            "fallback": "You are unable to choose a game",
+            "callback_id": "wopr_game",
+            "color": "#3AA3E3",
+            "attachment_type": "default",
+            "actions": [
+                {
+                    "name": "game",
+                    "text": "Chess",
+                    "type": "button",
+                    "value": "chess"
+                },
+                {
+                    "name": "game",
+                    "text": "Falken's Maze",
+                    "type": "button",
+                    "value": "maze"
+                },
+                {
+                    "name": "game",
+                    "text": "Thermonuclear War",
+                    "style": "danger",
+                    "type": "button",
+                    "value": "war",
+                    "confirm": {
+                        "title": "Are you sure?",
+                        "text": "Wouldn't you prefer a good game of chess?",
+                        "ok_text": "Yes",
+                        "dismiss_text": "No"
+                    }
+                }
+            ]
+        }
+    ]
+};
+// {
+//     text : 'Hello ' + userName + `, welcome to MakeHaven!
+//     \nFirst, sign the <http://guilfordfreelibrary.org/wp-content/uploads/2017/08/MakeHaven-Guest-Waiver-and-Release.pdf| online waiver>.`
+//   };
   // Loop otherwise..
   if (userName !== 'slackbot') {
     return res.status(200).json(botPayload);
